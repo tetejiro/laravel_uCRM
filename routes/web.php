@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\InertiaTestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +17,14 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/inertia-test', function () {
+Route::get('inertia-test', function () {
     return Inertia::render('inertiaTest');
 });
 
+Route::get('inertia/index', [InertiaTestController::class, 'index'])->name('inertia.index');
+Route::get('inertia/show/{id}', [InertiaTestController::class, 'show'])->name('inertia.show');
+
+// ここ以下はデフォルトの記載
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
