@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\InertiaTest;
+use App\Http\Requests\InertiaTestValidation;
 
 class InertiaTestController extends Controller
 {
@@ -26,11 +27,12 @@ class InertiaTestController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(InertiaTestValidation $request)
     {
+        $validated = $request->validated();
         $InertiaTest = new InertiaTest();
-        $InertiaTest->title = $request->title;
-        $InertiaTest->content = $request->contents;
+        $InertiaTest->title = $validated['title'];
+        $InertiaTest->content = $validated['content'];
         $InertiaTest->save();
 
         return to_route('inertia.index');

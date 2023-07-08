@@ -4,8 +4,12 @@
 
   const form = reactive({
     title: null,
-    contents: null
+    content: null
   });
+
+  defineProps({
+    errors: Object
+  })
 
   const submitFunction = () => {
     Inertia.post('/inertia/store', form);
@@ -14,7 +18,9 @@
 <template>
   <form @submit.prevent="submitFunction">
     <input type="text" v-model="form.title"><br>
-    <input type="text" v-model="form.contents"><br>
+    <div v-if="errors.title">{{ errors.title }}</div>
+    <input type="text" v-model="form.content"><br>
+    <div v-if="errors.content">{{ errors.content }}</div>
     <button type="submit">送信</button>
   </form>
 </template>
