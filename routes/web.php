@@ -26,6 +26,7 @@ Route::get('inertia/index', [InertiaTestController::class, 'index'])->name('iner
 Route::get('inertia/show/{id}', [InertiaTestController::class, 'show'])->name('inertia.show');
 Route::post('inertia/store', [InertiaTestController::class, 'store'])->name('inertia.store');
 Route::get('inertia/create', [InertiaTestController::class, 'create'])->name('inertia.create');
+Route::delete('inertia/{id}', [InertiaTestController::class, 'delete'])->name('inertia.delete');
 
 // ここ以下はデフォルトの記載
 Route::get('/', function () {

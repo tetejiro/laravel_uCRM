@@ -12,7 +12,9 @@ class InertiaTestController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Inertia/index');
+        return Inertia::render('Inertia/index', [
+            'records' => InertiaTest::all()
+        ]);
     }
 
     public function create()
@@ -23,7 +25,8 @@ class InertiaTestController extends Controller
     public function show($id)
     {
         return Inertia::render('Inertia/Show',[
-            'id' => $id
+            'id' => $id,
+            'record' => InertiaTest::findOrFail($id)
         ]);
     }
 
@@ -35,6 +38,15 @@ class InertiaTestController extends Controller
         $InertiaTest->content = $validated['content'];
         $InertiaTest->save();
 
-        return to_route('inertia.index');
+        return to_route('inertia.index')->with([
+            'message' => '登録しました'
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $record = InertiaTest::findOrFail($id);
+        $record->delete();
+        return to_route('inertia.index')->with(['message' => '削除完了']);
     }
 }
