@@ -49,4 +49,9 @@ class InertiaTestController extends Controller
         $record->delete();
         return to_route('inertia.index')->with(['message' => '削除完了']);
     }
+
+    public function component()
+    {
+        return Inertia::render('ComponentTest');
+    }
 }
