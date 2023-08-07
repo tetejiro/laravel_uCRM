@@ -12,8 +12,9 @@
     })
   }
 </script>
+
 <template>
-  id: {{id}}
+  <div class="text-blue-400">id: {{id}}</div>
   records: {{ record }}<br>
   <input type="button" value="削除" @click="deleteAlerm(record.id)">
 </template>

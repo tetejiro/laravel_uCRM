@@ -24,7 +24,7 @@ class InertiaTestValidation extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required | max:20',
+            'title' => 'required|max:20',
             'content' => 'required'
         ];
     }

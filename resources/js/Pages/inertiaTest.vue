@@ -16,10 +16,10 @@
   <div class="mb-8"></div>
   <input type="text" name="newTitle" v-model="newTitle"><br>
   <input type="text" name="newContent" v-model="newContent"><br>
-  <Link as="button" :href="route('inertia.store')" :method="post"
+  <Link as="button" :href="route('inertia.store')" method="post"
     :data="{
       title: newTitle,
-      contents: newContent
+      content: newContent
     }"
   >保存ボタン</Link>
 </template>

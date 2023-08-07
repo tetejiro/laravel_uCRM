@@ -16,6 +16,7 @@
   }
 </script>
 <template>
+  <div>Create.vue</div>
   <form @submit.prevent="submitFunction">
     <input type="text" v-model="form.title"><br>
     <div v-if="errors.title">{{ errors.title }}</div>
