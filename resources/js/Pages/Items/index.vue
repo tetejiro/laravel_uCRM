@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     items: Array
@@ -25,6 +25,9 @@ defineProps({
                                     <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Pricing</h1>
                                 </div>
                                 <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
+                                    <Link as="button" :href="route('Items.create')" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                                        商品登録
+                                    </Link>
                                     <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Button</button>
                                 </div>
                                 <div class="lg:w-2/3 w-full mx-auto overflow-auto">
@@ -39,10 +42,12 @@ defineProps({
                                         </thead>
                                         <tbody>
                                             <tr v-for="item in items" :key="item.id">
-                                                <td class="px-4 py-3">{{ item.id }}</td>
-                                                <td class="px-4 py-3">{{ item.name }}</td>
-                                                <td class="px-4 py-3">{{ item.price }}</td>
-                                                <td class="px-4 py-3">{{ item.is_selling }}</td>
+                                                <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.id }}</td>
+                                                <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.name }}</td>
+                                                <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.price }}</td>
+                                                <td class="border-b-2 border-gray-200 px-4 py-3">
+                                                    <input v-show="item.is_selling === 1" type="radio">
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
