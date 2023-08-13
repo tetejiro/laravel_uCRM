@@ -44,7 +44,12 @@ class ItemController extends Controller
             'memo' => $request->memo,
             'price' => $request->price
         ]);
-        return Inertia::render('Items/Index');
+
+        return to_route('Items.index')
+        ->with([
+            'message' => '保存完了',
+            'status' => 'success'
+        ]);
     }
 
     /**

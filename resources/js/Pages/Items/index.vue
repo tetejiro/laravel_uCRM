@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import FlashMessage from '@/Components/FlashMessage.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 
 defineProps({
@@ -21,6 +22,7 @@ defineProps({
                     <div class="p-6 text-gray-900">
                         <section class="text-gray-600 body-font">
                             <div class="container px-5 py-8 mx-auto">
+                                <FlashMessage></FlashMessage>
                                 <div class="flex flex-col text-center w-full mb-4">
                                     <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Pricing</h1>
                                 </div>
