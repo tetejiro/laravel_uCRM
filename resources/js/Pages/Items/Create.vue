@@ -1,10 +1,11 @@
 <script setup>
   import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+  import InputError from '@/Components/InputError.vue';
   import { Inertia } from '@inertiajs/inertia';
   import { Head } from '@inertiajs/inertia-vue3';
   import { reactive } from 'vue';
 
-  defineProps({
+  const props = defineProps({
     errors: Object
   })
 
@@ -38,6 +39,7 @@
                     <div class="flex flex-wrap -m-2">
                       <div class="p-2 w-full">
                         <div class="relative">
+                          <InputError :message="props.errors.name"></InputError>
                           <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
                           <input type="text" id="name" name="name" v-model="form.name"
                                   class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
@@ -45,12 +47,14 @@
                       </div>
                       <div class="p-2 w-full">
                         <div class="relative">
+                          <InputError :message="props.errors.memo"></InputError>
                           <label for="memo" class="leading-7 text-sm text-gray-600">memo</label>
                           <input type="text" id="memo" name="memo" v-model="form.memo" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
                       </div>
                       <div class="p-2 w-full">
                         <div class="relative">
+                          <InputError :message="props.errors.price"></InputError>
                           <label for="price" class="leading-7 text-sm text-gray-600">price</label>
                           <input type="number" id="price" name="price" v-model="form.price" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
