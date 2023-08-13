@@ -1,7 +1,7 @@
 <script setup>
   import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
   import { Inertia } from '@inertiajs/inertia';
-  import { Head } from '@inertiajs/vue3';
+  import { Head } from '@inertiajs/inertia-vue3';
   import { reactive } from 'vue';
 
   defineProps({
