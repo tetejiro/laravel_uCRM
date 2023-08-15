@@ -35,7 +35,9 @@
                                         <div class="p-2 w-full">
                                             <label class="leading-7 text-sm text-gray-600">めも</label>
                                             <div class="relative">
-                                                <div v-html="nl2br(Item.memo)" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></div>
+                                                <div class="whitespace-pre-wrap w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                                    {{ Item.memo }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="p-2 w-full">
@@ -55,7 +57,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <Link :href="route('Items.edit', { 'Item': Item })"
+                                        <Link :href="route('Items.edit', { Item: Item })"
                                             class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">編集</Link>
                                     </div>
                                 </div>
