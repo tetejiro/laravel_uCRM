@@ -69,9 +69,9 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Item $item)
+    public function edit(Item $Item)
     {
-        //
+        return inertia::render('Items/Edit', ['Item' => $Item]);
     }
 
     /**
@@ -81,9 +81,9 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateItemRequest $request, Item $item)
+    public function update(UpdateItemRequest $request, Item $Item)
     {
-        //
+        dd($request, $Item);
     }
 
     /**

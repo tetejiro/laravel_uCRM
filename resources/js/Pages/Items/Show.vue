@@ -1,7 +1,6 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import { Head, Link } from '@inertiajs/inertia-vue3';
-    import { nl2br } from '@/common';
 
     defineProps({
         Item: Array
@@ -67,4 +66,5 @@
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout></template>
+    </AuthenticatedLayout>
+</template>
