@@ -26,12 +26,6 @@ defineProps({
                                 <div class="flex flex-col text-center w-full mb-4">
                                     <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Pricing</h1>
                                 </div>
-                                <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
-                                    <Link as="button" :href="route('Items.create')" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-                                        商品登録
-                                    </Link>
-                                    <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Button</button>
-                                </div>
                                 <div class="lg:w-2/3 w-full mx-auto overflow-auto">
                                     <table class="table-auto w-full text-left whitespace-no-wrap">
                                         <thead>
@@ -44,15 +38,24 @@ defineProps({
                                         </thead>
                                         <tbody>
                                             <tr v-for="item in items" :key="item.id">
-                                                <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.id }}</td>
+                                                <td class="border-b-2 border-gray-200 px-4 py-3">
+                                                    <Link :href="route('Items.show', {'Item': item})" class="text-blue-600">
+                                                        {{ item.id }}
+                                                    </Link>
+                                                </td>
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.name }}</td>
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.price }}</td>
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">
-                                                    <input v-show="item.is_selling === 1" type="radio">
+                                                    <div v-show="item.is_selling === 1">○</div>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
+                                <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
+                                    <Link as="button" :href="route('Items.create')" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                                        商品登録
+                                    </Link>
                                 </div>
                             </div>
                         </section>

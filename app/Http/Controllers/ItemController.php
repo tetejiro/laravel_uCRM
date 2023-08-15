@@ -58,9 +58,9 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Item $item)
+    public function show(Item $Item)
     {
-        //
+        return inertia::render('Items/Show', ['Item' => $Item]);
     }
 
     /**
