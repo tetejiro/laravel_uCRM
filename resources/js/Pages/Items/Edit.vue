@@ -30,7 +30,7 @@
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">商品登録</h2>
     </template>
 
-    <form @submit.prevent="updateItem(id)">
+    <form @submit.prevent="updateItem(Item.id)">
       <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -65,9 +65,9 @@
                         <div class="relative">
                           <InputError :message="errors.is_selling"></InputError>
                           <label class="leading-7 text-sm text-gray-600">
-                          <input type="radio" name="is_selling" value="0" v-model="form.is_selling"> 販売中  </label>
+                          <input type="radio" name="is_selling" value="1" v-model="form.is_selling"> 販売中  </label>
                           <label class="leading-7 text-sm text-gray-600">
-                          <input type="radio" name="is_selling" value="1" v-model="form.is_selling"> 販売中止</label>
+                          <input type="radio" name="is_selling" value="0" v-model="form.is_selling"> 販売中止</label>
                         </div>
                       </div>
                       <div class="p-2 w-full">

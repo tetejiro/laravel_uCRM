@@ -24,9 +24,9 @@ class UpdateItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['require', 'max:50'],
-            'memo' => ['require', 'max:255'],
-            'price' => ['require', 'numeric'],
+            'name' => ['required', 'max:50'],
+            'memo' => ['required', 'max:255'],
+            'price' => ['required', 'numeric'],
             'is_selling' => ['required', 'boolean']
         ];
     }

@@ -83,7 +83,17 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $Item)
     {
-        dd($request, $Item);
+        $Item->name = $request->name;
+        $Item->memo = $request->memo;
+        $Item->price = $request->price;
+        $Item->is_selling = $request->is_selling;
+        $Item->save();
+
+        return to_route('Items.index')->with([
+            'message' => '更新完了',
+            'status' => 'success'
+        ]);
+
     }
 
     /**
