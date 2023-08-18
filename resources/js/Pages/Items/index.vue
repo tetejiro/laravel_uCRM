@@ -37,10 +37,10 @@ defineProps({
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="item in items" :key="item.id">
+                                            <tr v-for="(item, idx) in items" :key="idx+1">
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">
                                                     <Link :href="route('Items.show', {'Item': item})" class="text-blue-600">
-                                                        {{ item.id }}
+                                                        {{ idx+1 }}
                                                     </Link>
                                                 </td>
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.name }}</td>
