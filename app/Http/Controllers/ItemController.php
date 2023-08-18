@@ -102,8 +102,13 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item)
+    public function destroy(Item $Item)
     {
-        //
+        $Item->delete();
+
+        return to_route('Items.index')->with([
+            'message' => '削除しました',
+            'status' => 'alerm'
+        ]);
     }
 }

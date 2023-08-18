@@ -1,10 +1,17 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+    import { Inertia } from '@inertiajs/inertia';
     import { Head, Link } from '@inertiajs/inertia-vue3';
 
     defineProps({
-        Item: Array
+        Item: Object
     });
+
+    const deleteItem = (id) => {
+        Inertia.delete(route('Items.destroy', { Item: id }), {
+            onBefore: () => window.alert('本当に削除しますか？')
+        });
+    }
 </script>
 
 <template>
@@ -52,12 +59,22 @@
                                                 <label class="leading-7 text-sm text-gray-600">予約可否</label>
                                                 <div class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                                     <div v-if="Item.is_selling == 1">○</div>
-                                                    <div v-if="Item.is_selling == 2">×</div>
+                                                    <div v-if="Item.is_selling == 0">×</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <Link :href="route('Items.edit', { Item: Item })"
-                                            class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">編集</Link>
+                                            class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                            編集
+                                        </Link>
+                                        <!-- TODO:リンクの方でdeleteできない -->
+                                        <!-- <Link :href="route('Items.destroy', { Item: Item.id })"
+                                            class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                            削除
+                                        </Link> -->
+                                        <button @click="deleteItem(Item.id)" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                            削除
+                                        </button>
                                     </div>
                                 </div>
                             </div>
