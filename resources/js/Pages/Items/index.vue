@@ -30,7 +30,7 @@ defineProps({
                                     <table class="table-auto w-full text-left whitespace-no-wrap">
                                         <thead>
                                             <tr>
-                                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">ID</th>
+                                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">商品番号</th>
                                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">商品名</th>
                                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">価格</th>
                                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Status</th>
@@ -46,7 +46,8 @@ defineProps({
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.name }}</td>
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.price }}</td>
                                                 <td class="border-b-2 border-gray-200 px-4 py-3">
-                                                    <div v-show="item.is_selling === 1">○</div>
+                                                    <div v-if="item.is_selling === 1">○</div>
+                                                    <div v-if="item.is_selling === 0">×</div>
                                                 </td>
                                             </tr>
                                         </tbody>
