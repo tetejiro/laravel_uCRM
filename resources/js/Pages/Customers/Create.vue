@@ -4,6 +4,7 @@
   import { Inertia } from '@inertiajs/inertia';
   import { Head } from '@inertiajs/inertia-vue3';
   import { reactive } from 'vue';
+  import { Core as YubinBangoCore } from 'yubinbango-core2';
 
   defineProps({
     errors: Object
@@ -23,6 +24,14 @@
 
   const storeCustomer = () => {
     Inertia.post('/customers', form);
+  }
+
+  const fetchAddress = () => {
+    new YubinBangoCore(String(form.postcode), (value) => {
+      form.address = value.region; // 都道府県
+      form.address += value.locality; // 市区町村
+      form.address += value.street; // 町域
+    })
   }
 </script>
 
@@ -79,7 +88,7 @@
                         <div class="relative">
                           <InputError :message="errors.postcode"></InputError>
                           <label for="postcode" class="leading-7 text-sm text-gray-600">postcode</label>
-                          <input type="number" id="postcode" name="postcode" v-model="form.postcode"
+                          <input type="number" id="postcode" name="postcode" v-model="form.postcode" @change="fetchAddress"
                                   class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
                       </div>
