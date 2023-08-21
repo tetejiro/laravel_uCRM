@@ -6,6 +6,9 @@ use App\Models\Purchase;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
+use App\Models\Customer;
+use App\Models\Item;
+use Inertia\Inertia;
 
 class PurchaseController extends Controller
 {
@@ -26,7 +29,13 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        //
+        $customer = Customer::select('id', 'name', 'kana')->get();
+        $item = Item::select('id', 'name', 'price')->where('is_selling', true)->get();
+
+        return Inertia::render('Purchases/Create', [
+            'customers' => $customer,
+            'items' => $item
+        ]);
     }
 
     /**
