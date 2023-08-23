@@ -7,7 +7,7 @@ import { Head } from '@inertiajs/inertia-vue3';
 import { computed, reactive, ref } from 'vue';
 
 
-const props = defineProps(['customers', 'items', 'errors'])
+const props = defineProps(['items', 'errors'])
 
 function getDate() {
   let dates = new Date();
@@ -51,6 +51,12 @@ const storePurchase = () => {
   })
   Inertia.post(route('purchases.store'), form);
 }
+
+let selectedId = val => {
+  form.customer_id = val
+  console.log(val)
+}
+
 </script>
 
 <template>
@@ -76,21 +82,16 @@ const storePurchase = () => {
                           <InputError :message="errors.date"></InputError>
                           <label for="date" class="leading-7 text-sm text-gray-600">date</label>
                           <input type="date" id="date" name="date" v-model="form.date"
-                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
                       </div>
                       <div class="p-2 w-full">
                         <div class="relative">
                           <InputError :message="errors.customer_id"></InputError>
-                          <MicroModal></MicroModal>
                           <div class="leading-7 text-sm text-gray-600">customer</div>
-                          <select name="customer_id" v-model="form.customer_id"
-                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                            <option value="null" selected>選択してください</option>
-                            <option v-for="customer in props.customers" :key="customer.id" :value="customer.id">
-                              {{ customer.id }}/{{ customer.name }}
-                            </option>
-                          </select>
+
+                          <!-- モーダル -->
+                          <MicroModal @clickedId="selectedId"></MicroModal>
                         </div>
                       </div>
                     </div>
@@ -136,7 +137,7 @@ const storePurchase = () => {
                       </table>
                       <div class="leading-7 text-sm text-gray-600">合計金額</div>
                       <div
-                        class="w-full bg-white-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         {{ totalPrice }}
                       </div>
                     </div>
