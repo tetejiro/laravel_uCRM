@@ -33,7 +33,10 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink :href="route('purchases.create')" :active="route().current('purchases.create')">
-                                    購入一覧
+                                    購入
+                                </NavLink>
+                                <NavLink :href="route('purchases.index')" :active="route().current('purchases.index')">
+                                    購入履歴
                                 </NavLink>
                                 <NavLink :href="route('Items.index')" :active="route().current('Items.index')">
                                     商品管理
@@ -128,7 +131,10 @@ const showingNavigationDropdown = ref(false);
                             Dashboard
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('purchases.create')" :active="route().current('purchases.create')">
-                            購入一覧
+                            購入
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('purchases.index')" :active="route().current('purchases.index')">
+                            購入履歴
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('Items.index')" :active="route().current('items.index')">
                             商品管理
