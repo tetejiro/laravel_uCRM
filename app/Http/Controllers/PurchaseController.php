@@ -81,7 +81,13 @@ class PurchaseController extends Controller
      */
     public function show(Purchase $purchase)
     {
-        //
+        $all = Order::where('id', $purchase['id'])->get();
+        $subtotal = $all->pluck('subtotal');
+
+        return Inertia::render('Purchases/Show', [
+            'all' => $all,
+            'subtotal' => $subtotal
+        ]);
     }
 
     /**
