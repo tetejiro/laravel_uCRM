@@ -138,7 +138,30 @@ class PurchaseController extends Controller
      */
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)
     {
-        return Inertia::render('Purchases/Store');
+        DB::beginTransaction();
+
+        try{
+            $purchase->status = $request->status;
+            $purchase->save();
+
+            $items = [];
+
+            foreach($request->items as $item){
+                $items = $items + [
+                    $item['id'] => [
+                        'quantity' => $item['quantity']
+                    ]
+                ];
+            }
+
+            $purchase->items()->sync($items);
+
+            DB::commit();
+            return to_route('dashboard');
+        } catch(\Exception $e){
+            DB::rollback();
+        }
+
     }
 
     /**
