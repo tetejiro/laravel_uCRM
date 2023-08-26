@@ -3,30 +3,31 @@
   import InputError from '@/Components/InputError.vue'
   import dayjs from 'dayjs'
   import { Inertia } from '@inertiajs/inertia'
-  import { computed, onMounted, reactive } from 'vue';
+  import { computed, reactive } from 'vue';
 
   const props = defineProps(['items', 'order', 'errors'])
   const quantities = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+
+  const itemList = reactive([])
+
+  props.items.forEach( item => {
+    itemList.push({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity
+    })
+  });
 
   let form = reactive({
     id: props.order[0].id,
     date: dayjs(props.order[0].date).format('YYYY-MM-DD'),
     customer_id: props.order[0].customer_id,
     status: props.order[0].status,
-    items: []
+    items: itemList
   })
 
-  const itemList = reactive([])
-
-  props.items.forEach(item => {
-    itemList.push({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      status : item.status,
-      quantity: item.quantity
-    })
-  });
 
   const totalPrice = computed(() => {
     let num = 0;
@@ -37,12 +38,11 @@
   })
 
   const updatePurchase = () => {
+    form.items = itemList.filter( item => {
+      return item.quantity > 0
+    })
     Inertia.put(route('purchases.update', {purchase: form.id}), form)
   }
-
-  onMounted(() => {
-    console.log(form.id)
-  })
 
 </script>
 
@@ -74,13 +74,12 @@
                       </div>
                       <div class="p-2 w-full">
                         <div class="relative">
-                          <InputError :message="errors.date"></InputError>
+                          <InputError :message="errors.name"></InputError>
                           <label class="leading-7 text-sm text-gray-600">name</label>
                           <input disabled type="text" name="name" :value="props.order[0].customer_name"
                             class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>

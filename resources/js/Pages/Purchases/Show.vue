@@ -1,6 +1,5 @@
 <script setup>
   import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-  import { Inertia } from '@inertiajs/inertia'
   import { Link } from '@inertiajs/inertia-vue3'
   import dayjs from 'dayjs'
 
