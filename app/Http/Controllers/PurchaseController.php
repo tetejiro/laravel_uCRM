@@ -98,7 +98,35 @@ class PurchaseController extends Controller
      */
     public function edit(Purchase $purchase)
     {
-        //
+        $itemId = Item::select('id')->pluck('id');
+
+        $purchase = Purchase::find($purchase->id); // 購買Idで指定
+        $allItems = Item::select('id', 'name', 'price')->get(); // 全商品を取得
+        $items = []; // 空の配列を用意
+
+        foreach($allItems as $allItem){
+            $quantity = 0; // 数量初期値 0
+            foreach($purchase->items as $item) { // 中間テーブルを1件ずつチェック
+                if($allItem->id === $item->id) { // 同じidがあれば
+                    $quantity = $item->pivot->quantity; // 中間テーブルの数量を設定 } }
+                }
+            }
+            array_push($items, [
+                'id' => $allItem->id, 'name' => $allItem->name,
+                'price' => $allItem->price, 'quantity' => $quantity
+            ]);
+        }
+
+
+        $order = Order::groupBy('id')
+                            ->where('id', $purchase->id)
+                            ->selectRaw('id, customer_id, customer_name, status, created_at')
+                            ->get();
+
+        return  Inertia::render('Purchases/Edit', [
+            'items' => $items,
+            'order' => $order
+        ]);
     }
 
     /**
@@ -110,7 +138,7 @@ class PurchaseController extends Controller
      */
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)
     {
-        //
+        return Inertia::render('Purchases/Store');
     }
 
     /**

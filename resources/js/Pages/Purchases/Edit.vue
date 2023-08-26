@@ -1,60 +1,48 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import MicroModal from '@/Components/MicroModal.vue'
-import { Inertia } from '@inertiajs/inertia';
-import { Head } from '@inertiajs/inertia-vue3';
-import { computed, reactive, ref } from 'vue';
+  import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+  import InputError from '@/Components/InputError.vue'
+  import dayjs from 'dayjs'
+  import { Inertia } from '@inertiajs/inertia'
+  import { computed, onMounted, reactive } from 'vue';
 
+  const props = defineProps(['items', 'order', 'errors'])
+  const quantities = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const props = defineProps(['items', 'errors'])
-
-function getDate() {
-  let dates = new Date();
-  let year = dates.getFullYear();
-  let month = '0' + (dates.getMonth() + 1);
-  month = month.slice(-2);
-  let day = '0' + dates.getDate();
-  day = day.slice(-2);
-
-  return year + "-" + month + "-" + day;
-}
-
-let form = reactive({
-  status: true,
-  date: getDate(),
-  customer_id: null,
-  items: []
-})
-
-let itemList = ref([]);
-props.items.forEach(item => {
-  item['quantity'] = 0;
-  itemList.value.push(item);
-});
-
-const quantities = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-let totalPrice = computed(() => {
-  let num = 0;
-  itemList.value.forEach(item => {
-    num += item.price * item.quantity
+  let form = reactive({
+    id: props.order[0].id,
+    date: dayjs(props.order[0].date).format('YYYY-MM-DD'),
+    customer_id: props.order[0].customer_id,
+    status: props.order[0].status,
+    items: []
   })
-  return num
-})
 
-const storePurchase = () => {
-  itemList.value.forEach((item) => {
-    if (item['quantity'] > 0) {
-      form.items.push({ id: item.id, quantity: item.quantity })
-    }
+  const itemList = reactive([])
+
+  props.items.forEach(item => {
+    itemList.push({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      status : item.status,
+      quantity: item.quantity
+    })
+  });
+
+  const totalPrice = computed(() => {
+    let num = 0;
+    itemList.forEach(item => {
+      num = num + item.price * item.quantity
+    })
+    return num
   })
-  Inertia.post(route('purchases.store'), form);
-}
 
-let selectedId = val => {
-  form.customer_id = val
-}
+  const updatePurchase = () => {
+    Inertia.put(route('purchases.update', {purchase: form.id}), form)
+  }
+
+  onMounted(() => {
+    console.log(form.id)
+  })
 
 </script>
 
@@ -66,7 +54,7 @@ let selectedId = val => {
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">購入画面</h2>
     </template>
 
-    <form @submit.prevent="storePurchase">
+    <form @submit.prevent="updatePurchase">
       <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -80,19 +68,19 @@ let selectedId = val => {
                         <div class="relative">
                           <InputError :message="errors.date"></InputError>
                           <label for="date" class="leading-7 text-sm text-gray-600">date</label>
-                          <input type="date" id="date" name="date" v-model="form.date"
+                          <input disabled type="date" id="date" name="date" :value="form.date"
                             class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
                       </div>
                       <div class="p-2 w-full">
                         <div class="relative">
-                          <InputError :message="errors.customer_id"></InputError>
-                          <div class="leading-7 text-sm text-gray-600">customer</div>
-
-                          <!-- モーダル -->
-                          <MicroModal @clickedId="selectedId"></MicroModal>
+                          <InputError :message="errors.date"></InputError>
+                          <label class="leading-7 text-sm text-gray-600">name</label>
+                          <input disabled type="text" name="name" :value="props.order[0].customer_name"
+                            class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
                       </div>
+
                     </div>
                   </div>
                 </div>
@@ -104,18 +92,21 @@ let selectedId = val => {
                       <table class="table-auto w-full text-left whitespace-no-wrap">
                         <thead>
                           <tr>
-                            <th
-                              class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
-                              id</th>
+                            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                              id
+                            </th>
                             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                              商品名</th>
+                              商品名
+                            </th>
                             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                              値段</th>
+                              値段
+                            </th>
                             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                              数量</th>
-                            <th
-                              class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">
-                              小計</th>
+                              数量
+                            </th>
+                            <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">
+                              小計
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -135,17 +126,22 @@ let selectedId = val => {
                         </tbody>
                       </table>
                       <div class="leading-7 text-sm text-gray-600">合計金額</div>
-                      <div
-                        class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                      <div class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         {{ totalPrice }}
+                      </div>
+                      <div v-show="props.order[0].status == 1">
+                        <div class="pt-4 leading-7 text-sm text-gray-600">status</div>
+                        <label>ノーキャンセル<input type="radio" name="status" v-model="form.status" value="1" class="mx-2"></label>
+                        <label>キャンセル<input type="radio" name="status" v-model="form.status" value="0" class="mx-2"></label>
                       </div>
                     </div>
                   </div>
                 </section>
 
                 <div class="p-2 w-full">
-                  <button
-                    class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録</button>
+                  <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    登録
+                  </button>
                 </div>
 
               </section>
