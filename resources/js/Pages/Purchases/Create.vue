@@ -5,20 +5,10 @@ import MicroModal from '@/Components/MicroModal.vue'
 import { Inertia } from '@inertiajs/inertia';
 import { Head } from '@inertiajs/inertia-vue3';
 import { computed, reactive, ref } from 'vue';
+import { getDate } from '@/common';
 
 
 const props = defineProps(['items', 'errors'])
-
-function getDate() {
-  let dates = new Date();
-  let year = dates.getFullYear();
-  let month = '0' + (dates.getMonth() + 1);
-  month = month.slice(-2);
-  let day = '0' + dates.getDate();
-  day = day.slice(-2);
-
-  return year + "-" + month + "-" + day;
-}
 
 let form = reactive({
   status: true,

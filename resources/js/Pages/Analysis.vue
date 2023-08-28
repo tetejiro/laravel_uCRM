@@ -3,22 +3,11 @@
     import Chart from '@/Components/Chart.vue';
     import { Head } from '@inertiajs/inertia-vue3';
     import { reactive } from 'vue';
-
-    function getDate() {
-        let dates = new Date();
-        let year = dates.getFullYear();
-        let month = '0' + (dates.getMonth() + 1);
-        month = month.slice(-2);
-        let day = '0' + dates.getDate();
-        day = day.slice(-2);
-
-        return year + "-" + month + "-" + day;
-    }
+    import { getDate } from '@/common';
 
     let data = reactive({
         data: []
     })
-    console.log(data.data.length)
 
 
     const getData = async() => {
