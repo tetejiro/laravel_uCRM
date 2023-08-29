@@ -1,6 +1,7 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import Chart from '@/Components/Chart.vue';
+    import ResultTable from '@/Components/ResultTable.vue';
     import { Head } from '@inertiajs/inertia-vue3';
     import { reactive } from 'vue';
     import { getDate } from '@/common';
@@ -9,6 +10,11 @@
         data: []
     })
 
+    const form = reactive({
+        startDate: getDate(),
+        endDate: getDate(),
+        type: 'perDay'
+    })
 
     const getData = async() => {
         try {
@@ -23,18 +29,13 @@
                 data.data = res.data.data
                 data.labels = res.data.labels
                 data.totals = res.data.totals
+                data.type = res.data.type
             })
         } catch(e) {
             console.log(e.message)
         }
     }
 
-
-    const form = reactive({
-        startDate: getDate(),
-        endDate: getDate(),
-        type: 'perDay'
-    })
 </script>
 
 <template>
@@ -51,42 +52,22 @@
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900">
 
+                            <div class="container py-4">
+                                <div class="leading-7 text-sm text-gray-600">category</div>
+                                <label class="ml-2">date<input type="radio" name="type" v-model="form.type" value="perDay" checked class="ml-2"></label>
+                                <label class="ml-2">month<input type="radio" name="type" v-model="form.type" value="perMonth" class="ml-2"></label>
+                                <label class="ml-2">year<input type="radio" name="type" v-model="form.type" value="perYear" class="ml-2"></label>
+                                <label class="ml-2">decile<input type="radio" name="type" v-model="form.type" value="decile" class="ml-2"></label>
+                            </div>
+
                             <label>開始日<input type="date" name="startDate" v-model="form.startDate" class="mx-4"></label>
                             <label>終了日<input type="date" name="endDate" v-model="form.endDate" class="ml-4"></label>
                             <button class="ml-4 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">検索</button>
 
-
                             <div v-show="data.data.length">
                                 <Chart :data="data"></Chart>
+                                <ResultTable :data="data"></ResultTable>
                             </div>
-
-
-                            <div v-show="data.data">
-                                <section class="text-gray-600 body-font">
-                                    <div class="container px-5 py-24 mx-auto">
-                                        <div class="lg:w-2/3 w-full mx-auto overflow-auto">
-                                        <table class="table-auto w-full text-left whitespace-no-wrap">
-                                            <thead>
-                                                <tr>
-                                                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">date</th>
-                                                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="item in data.data" :key="item.date">
-                                                    <td class="px-4 py-3">{{ item.date }}</td>
-                                                    <td class="px-4 py-3">{{ item.total }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        </div>
-                                    </div>
-                                </section>
-                            </div>
-
-
-
-
 
                         </div>
                     </div>

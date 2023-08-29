@@ -6,30 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
+use App\Services\AnalysisService;
+use App\Services\DecileService;
 
 class AnalysisController extends Controller
 {
     public function index(Request $request)
     {
+        $subQuery = Order::betweenDate($request->startDate, $request->endDate);
+
         if($request->type == 'perDay') {
-            $subQuery = Order::betweenDate($request->startDate, $request->endDate)
-                        ->where('status', true)
-                        ->select(
-                            'id',
-                            'status',
-                            'customer_name',
-                            DB::raw('sum(subtotal) as totalPerPurchase'),
-                            DB::raw('DATE_FORMAT(created_at, "%Y%m%d") as date'),
-                        )->groupBy('id');
+            list($data, $labels, $totals) = AnalysisService::perDay($subQuery);
+        }
 
-            $data = DB::table($subQuery)
-                    ->select('date', DB::raw('sum(totalPerPurchase) as total'))
-                    ->groupBy('date')
-                    ->get();
+        if($request->type == 'perMonth') {
+            list($data, $labels, $totals) = AnalysisService::perMonth($subQuery);
+        }
 
-            $labels = $data->pluck('date');
-            $totals = $data->pluck('total');
+        if($request->type == 'perYear') {
+            list($data, $labels, $totals) = AnalysisService::perYear($subQuery);
+        }
+
+        if($request->type == 'decile') {
+            list($data, $labels, $totals) = DecileService::decile($subQuery);
         }
 
 
